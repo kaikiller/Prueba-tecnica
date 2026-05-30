@@ -15,6 +15,7 @@ interface Car {
 interface FilterOptions {
   brands: string[];
   years: number[];
+  statuses: string[];
 }
 
 const Dashboard: React.FC = () => {
@@ -22,11 +23,12 @@ const Dashboard: React.FC = () => {
   const [search, setSearch] = useState('');
   const [brandFilter, setBrandFilter] = useState('');
   const [yearFilter, setYearFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState<FilterOptions>({ brands: [], years: [] });
+  const [filters, setFilters] = useState<FilterOptions>({ brands: [], years: [], statuses: [] });
   
   const email = localStorage.getItem('userEmail');
   const navigate = useNavigate();
@@ -54,6 +56,7 @@ const Dashboard: React.FC = () => {
           search,
           brand: brandFilter,
           year: yearFilter,
+          status: statusFilter,
           page: currentPage,
           limit
         }
@@ -78,7 +81,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     fetchCars(1);
     setPage(1);
-  }, [brandFilter, yearFilter]);
+  }, [brandFilter, yearFilter, statusFilter]);
 
   useEffect(() => {
     fetchCars(page);
@@ -105,68 +108,70 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans">
-      <nav className="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-10">
-        <div className="flex items-center gap-2">
-          <div className="bg-blue-600 p-1.5 rounded-lg">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
+      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-4 flex justify-between items-center sticky top-0 z-50">
+        <div className="flex items-center gap-3">
+          <div className="bg-emerald-600 p-2 rounded-xl shadow-lg shadow-emerald-200">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
           </div>
-          <h1 className="text-xl font-bold text-slate-800">Concesionario <span className="text-blue-600">AutoDrive</span></h1>
+          <h1 className="text-2xl font-black tracking-tight">Auto<span className="text-emerald-600">Drive</span></h1>
         </div>
-        <div className="flex items-center gap-6">
-          <div className="hidden md:flex flex-col items-end">
-            <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">Sesión iniciada</span>
-            <span className="text-sm font-medium text-slate-700">{email}</span>
+        <div className="flex items-center gap-8">
+          <div className="hidden lg:flex flex-col items-end">
+            <span className="text-[10px] text-slate-400 uppercase font-black tracking-widest">Admin Access</span>
+            <span className="text-sm font-bold text-slate-700">{email}</span>
           </div>
           <button
             onClick={handleLogout}
-            className="bg-slate-100 text-slate-700 px-4 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 transition font-semibold text-sm border border-slate-200"
+            className="bg-slate-900 text-white px-5 py-2.5 rounded-xl hover:bg-emerald-600 transition-all font-bold text-sm shadow-xl shadow-slate-200 active:scale-95"
           >
             Cerrar Sesión
           </button>
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto p-8">
-        <header className="mb-10 flex flex-col gap-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <h2 className="text-3xl font-extrabold text-slate-800">Inventario de Autos</h2>
-              <p className="text-slate-500 mt-1">Mostrando {totalItems} vehículos disponibles.</p>
-            </div>
-            <form onSubmit={handleSearchSubmit} className="flex gap-3 w-full md:w-auto">
-              <div className="relative flex-grow md:w-64">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </span>
-                <input
-                  type="text"
-                  placeholder="Buscar modelo..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="pl-10 w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm transition"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-blue-600 text-white px-6 py-2.5 rounded-xl hover:bg-blue-700 font-bold shadow-md shadow-blue-200 transition"
-              >
-                Buscar
-              </button>
-            </form>
+      <main className="max-w-7xl mx-auto p-10">
+        <header className="mb-12 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+          <div>
+            <span className="bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full mb-3 inline-block">Manejo de Stock</span>
+            <h2 className="text-4xl font-black text-slate-900 tracking-tight">Inventario de Autos</h2>
+            <p className="text-slate-500 mt-2 font-medium">Control total sobre los {totalItems} vehículos en catálogo.</p>
           </div>
+          <form onSubmit={handleSearchSubmit} className="flex gap-3 w-full lg:w-auto">
+            <div className="relative flex-grow lg:w-96">
+              <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg className="h-5 w-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </span>
+              <input
+                type="text"
+                placeholder="Busca por marca o modelo..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-12 w-full p-4 border-none rounded-2xl focus:ring-2 focus:ring-emerald-500 bg-white shadow-xl shadow-slate-200/50 transition-all placeholder:text-slate-300 font-medium"
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-emerald-600 text-white px-8 py-4 rounded-2xl hover:bg-emerald-700 font-black shadow-xl shadow-emerald-200 transition-all active:scale-95"
+            >
+              Buscar
+            </button>
+          </form>
+        </header>
 
-          <div className="flex flex-wrap gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <div className="flex flex-col gap-1">
-              <label className="text-xs font-bold text-slate-400 uppercase ml-1">Filtrar por Marca</label>
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-12">
+          {/* Filters Sidebar/Section */}
+          <div className="xl:col-span-4 flex flex-wrap gap-6 bg-white p-6 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/30">
+            <div className="flex flex-col gap-2 flex-grow min-w-[200px]">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Marca</label>
               <select 
                 value={brandFilter}
                 onChange={(e) => setBrandFilter(e.target.value)}
-                className="p-2 border border-slate-200 rounded-lg bg-slate-50 text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="p-3 bg-slate-50 border border-slate-100 rounded-xl text-slate-700 font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all cursor-pointer"
               >
                 <option value="">Todas las Marcas</option>
                 {filters.brands.map(brand => (
@@ -175,12 +180,12 @@ const Dashboard: React.FC = () => {
               </select>
             </div>
             
-            <div className="flex flex-col gap-1">
-              <label className="text-xs font-bold text-slate-400 uppercase ml-1">Filtrar por Año</label>
+            <div className="flex flex-col gap-2 flex-grow min-w-[200px]">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Año</label>
               <select 
                 value={yearFilter}
                 onChange={(e) => setYearFilter(e.target.value)}
-                className="p-2 border border-slate-200 rounded-lg bg-slate-50 text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="p-3 bg-slate-50 border border-slate-100 rounded-xl text-slate-700 font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all cursor-pointer"
               >
                 <option value="">Todos los Años</option>
                 {filters.years.map(year => (
@@ -189,98 +194,138 @@ const Dashboard: React.FC = () => {
               </select>
             </div>
 
+            <div className="flex flex-col gap-2 flex-grow min-w-[200px]">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Estado de Venta</label>
+              <select 
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="p-3 bg-slate-50 border border-slate-100 rounded-xl text-slate-700 font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all cursor-pointer"
+              >
+                <option value="">Todos los Estados</option>
+                {filters.statuses.map(status => (
+                  <option key={status} value={status}>{status}</option>
+                ))}
+              </select>
+            </div>
+
             <button 
-              onClick={() => {setBrandFilter(''); setYearFilter(''); setSearch('');}}
-              className="mt-auto mb-1 text-sm text-blue-600 font-bold hover:text-blue-800 ml-2"
+              onClick={() => {setBrandFilter(''); setYearFilter(''); setStatusFilter(''); setSearch('');}}
+              className="xl:mt-6 px-6 py-3 text-sm text-slate-400 font-black hover:text-red-500 transition-all uppercase tracking-widest"
             >
-              Limpiar Filtros
+              Resetear
             </button>
           </div>
-        </header>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          {loading ? (
-            <div className="p-20 flex flex-col items-center justify-center text-slate-400">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mb-4"></div>
-              <p>Actualizando inventario...</p>
-            </div>
-          ) : (
-            <>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-100">
-                  <thead>
-                    <tr className="bg-slate-50">
-                      <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-widest">Vehículo</th>
-                      <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-widest">Año</th>
-                      <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-widest">Precio</th>
-                      <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-widest">Kilometraje</th>
-                      <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-widest">Estado</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-slate-100">
-                    {cars.length > 0 ? (
-                      cars.map((car) => (
-                        <tr key={car.id} className="hover:bg-slate-50 transition">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex flex-col">
-                              <span className="text-sm font-bold text-slate-900">{car.brand}</span>
-                              <span className="text-xs text-slate-500">{car.model}</span>
+          <div className="xl:col-span-4 bg-white rounded-[32px] shadow-2xl shadow-slate-200/50 border border-white overflow-hidden">
+            {loading ? (
+              <div className="p-32 flex flex-col items-center justify-center text-slate-300">
+                <div className="animate-spin rounded-full h-12 w-12 border-[3px] border-emerald-600 border-t-transparent mb-6"></div>
+                <p className="font-black uppercase tracking-widest text-xs">Cargando catálogo...</p>
+              </div>
+            ) : (
+              <>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full">
+                    <thead>
+                      <tr className="bg-slate-50/50">
+                        <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Vehículo</th>
+                        <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Detalles</th>
+                        <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Precio</th>
+                        <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-50">
+                      {cars.length > 0 ? (
+                        cars.map((car) => (
+                          <tr key={car.id} className="hover:bg-emerald-50/30 transition-colors group">
+                            <td className="px-8 py-7 whitespace-nowrap">
+                              <div className="flex flex-col">
+                                <span className="text-lg font-black text-slate-900 group-hover:text-emerald-700 transition-colors">{car.brand}</span>
+                                <span className="text-sm font-bold text-slate-400 tracking-tight">{car.model}</span>
+                              </div>
+                            </td>
+                            <td className="px-8 py-7 whitespace-nowrap">
+                              <div className="flex gap-4">
+                                <div className="flex flex-col">
+                                  <span className="text-[10px] font-black text-slate-300 uppercase">Año</span>
+                                  <span className="text-sm font-bold text-slate-700">{car.year}</span>
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="text-[10px] font-black text-slate-300 uppercase">Km</span>
+                                  <span className="text-sm font-bold text-slate-700">{formatNumber(car.mileage)}</span>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-8 py-7 whitespace-nowrap">
+                              <span className="text-xl font-black text-emerald-600 tracking-tight">{formatCurrency(car.price)}</span>
+                            </td>
+                            <td className="px-8 py-7 whitespace-nowrap">
+                              <span className={`px-4 py-1.5 inline-flex text-[10px] font-black uppercase tracking-widest rounded-xl border-2
+                                ${car.status === 'Disponible' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
+                                  car.status === 'Reservado' ? 'bg-amber-50 text-amber-600 border-amber-100' : 
+                                  'bg-slate-50 text-slate-400 border-slate-100'}`}>
+                                {car.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={4} className="px-8 py-32 text-center">
+                            <div className="flex flex-col items-center">
+                              <div className="bg-slate-50 p-6 rounded-3xl mb-4">
+                                <svg className="h-12 w-12 text-slate-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                              </div>
+                              <p className="text-slate-400 font-bold tracking-tight">Vaya, no hemos encontrado nada con esos filtros.</p>
+                              <button onClick={() => {setBrandFilter(''); setYearFilter(''); setStatusFilter(''); setSearch('');}} className="text-emerald-600 font-black text-xs uppercase tracking-widest mt-4 hover:underline">Mostrar todo de nuevo</button>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">{car.year}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-blue-600">{formatCurrency(car.price)}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">{formatNumber(car.mileage)} km</td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full border
-                              ${car.status === 'Disponible' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 
-                                car.status === 'Reservado' ? 'bg-amber-50 text-amber-700 border-amber-100' : 
-                                'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                              {car.status}
-                            </span>
-                          </td>
                         </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan={5} className="px-6 py-20 text-center text-slate-500">
-                          No se encontraron vehículos que coincidan.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Pagination Controls */}
-              {totalPages > 1 && (
-                <div className="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center justify-between">
-                  <button
-                    onClick={() => setPage(p => Math.max(1, p - 1))}
-                    disabled={page === 1}
-                    className="flex items-center gap-1 text-sm font-bold text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:text-blue-600 transition"
-                  >
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                    Anterior
-                  </button>
-                  <span className="text-sm text-slate-500 font-medium">
-                    Página <span className="text-slate-900 font-bold">{page}</span> de <span className="text-slate-900 font-bold">{totalPages}</span>
-                  </span>
-                  <button
-                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                    disabled={page === totalPages}
-                    className="flex items-center gap-1 text-sm font-bold text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:text-blue-600 transition"
-                  >
-                    Siguiente
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
+                      )}
+                    </tbody>
+                  </table>
                 </div>
-              )}
-            </>
-          )}
+
+                {totalPages > 1 && (
+                  <div className="bg-slate-50/50 px-8 py-6 flex items-center justify-between border-t border-slate-50">
+                    <button
+                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      disabled={page === 1}
+                      className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 disabled:opacity-20 hover:text-emerald-600 transition-all"
+                    >
+                      <svg className="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
+                      </svg>
+                      Anterior
+                    </button>
+                    <div className="flex gap-2">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(num => (
+                        <button
+                          key={num}
+                          onClick={() => setPage(num)}
+                          className={`w-8 h-8 rounded-lg text-xs font-black transition-all ${page === num ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' : 'text-slate-400 hover:bg-slate-100'}`}
+                        >
+                          {num}
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                      disabled={page === totalPages}
+                      className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 disabled:opacity-20 hover:text-emerald-600 transition-all"
+                    >
+                      Siguiente
+                      <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </main>
     </div>

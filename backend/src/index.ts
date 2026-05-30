@@ -36,6 +36,7 @@ app.get('/api/cars', authenticateToken, (req: AuthRequest, res) => {
   const search = req.query.search as string || '';
   const brand = req.query.brand as string || '';
   const year = req.query.year as string || '';
+  const status = req.query.status as string || '';
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
   const offset = (page - 1) * limit;
@@ -51,6 +52,11 @@ app.get('/api/cars', authenticateToken, (req: AuthRequest, res) => {
   if (year) {
     whereClauses.push("year = ?");
     params.push(parseInt(year));
+  }
+
+  if (status) {
+    whereClauses.push("status = ?");
+    params.push(status);
   }
 
   const whereSql = whereClauses.join(" AND ");
@@ -77,18 +83,23 @@ app.get('/api/cars', authenticateToken, (req: AuthRequest, res) => {
   });
 });
 
-// Get unique brands and years for filters
+// Get unique brands, years and statuses for filters
 app.get('/api/filters', authenticateToken, (req, res) => {
   const brandQuery = `SELECT DISTINCT brand FROM cars ORDER BY brand ASC`;
   const yearQuery = `SELECT DISTINCT year FROM cars ORDER BY year DESC`;
+  const statusQuery = `SELECT DISTINCT status FROM cars ORDER BY status ASC`;
 
   db.all(brandQuery, [], (err, brands) => {
     if (err) return res.status(500).json({ message: 'Error fetching brands' });
     db.all(yearQuery, [], (err, years) => {
       if (err) return res.status(500).json({ message: 'Error fetching years' });
-      res.json({
-        brands: brands.map((b: any) => b.brand),
-        years: years.map((y: any) => y.year)
+      db.all(statusQuery, [], (err, statuses) => {
+        if (err) return res.status(500).json({ message: 'Error fetching statuses' });
+        res.json({
+          brands: brands.map((b: any) => b.brand),
+          years: years.map((y: any) => y.year),
+          statuses: statuses.map((s: any) => s.status)
+        });
       });
     });
   });

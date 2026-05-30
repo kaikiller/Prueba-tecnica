@@ -22,58 +22,60 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-96 border border-slate-200">
-        <div className="flex flex-col items-center mb-8">
-          <div className="bg-blue-600 p-3 rounded-full mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-emerald-50">
+      <div className="bg-white p-10 rounded-3xl shadow-2xl shadow-emerald-200/50 w-[400px] border border-white">
+        <div className="flex flex-col items-center mb-10">
+          <div className="bg-emerald-600 p-4 rounded-2xl shadow-lg shadow-emerald-200 mb-4 rotate-3">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-slate-800">Concesionario</h2>
-          <p className="text-slate-500 text-sm">Inicia sesión para gestionar el inventario</p>
+          <h2 className="text-3xl font-black text-slate-800 tracking-tight">AutoDrive</h2>
+          <p className="text-slate-400 text-sm font-medium mt-1">Gestión de Inventario Premium</p>
         </div>
         
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 p-3 mb-6">
-            <p className="text-red-700 text-sm">{error}</p>
+          <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-6 rounded-r-lg">
+            <p className="text-red-700 text-sm font-medium">{error}</p>
           </div>
         )}
 
-        <form onSubmit={handleLogin}>
-          <div className="mb-4">
-            <label className="block text-slate-700 text-sm font-semibold mb-2">Correo Electrónico</label>
+        <form onSubmit={handleLogin} className="space-y-5">
+          <div>
+            <label className="block text-slate-700 text-xs font-bold uppercase tracking-widest mb-2 ml-1">Correo Electrónico</label>
             <input
               type="email"
-              placeholder="ejemplo@correo.com"
+              placeholder="admin@autodrive.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all placeholder:text-slate-300"
               required
             />
           </div>
-          <div className="mb-6">
-            <label className="block text-slate-700 text-sm font-semibold mb-2">Contraseña</label>
+          <div>
+            <label className="block text-slate-700 text-xs font-bold uppercase tracking-widest mb-2 ml-1">Contraseña</label>
             <input
               type="password"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all placeholder:text-slate-300"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 active:scale-[0.98] transition duration-200"
+            className="w-full bg-emerald-600 text-white font-bold py-4 rounded-2xl hover:bg-emerald-700 active:scale-[0.97] transition-all duration-200 shadow-xl shadow-emerald-100 mt-2"
           >
-            Ingresar al Sistema
+            Acceder al Panel
           </button>
         </form>
         
-        <div className="mt-8 pt-6 border-t border-slate-100 text-center">
-          <p className="text-slate-400 text-xs">Acceso de prueba:</p>
-          <p className="text-slate-600 text-xs font-mono mt-1">admin@admin.com / password</p>
+        <div className="mt-10 pt-8 border-t border-slate-100 flex flex-col items-center">
+          <span className="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">Credenciales de Acceso</span>
+          <div className="bg-slate-50 px-4 py-2 rounded-full mt-3 border border-slate-100">
+            <code className="text-emerald-700 text-xs font-bold">admin@admin.com / password</code>
+          </div>
         </div>
       </div>
     </div>
