@@ -1,75 +1,69 @@
-# Prueba Técnica: Aplicación Full-Stack (Login & Dashboard)
+# AutoDrive: Gestión de Inventario de Autos Usados
 
-Esta es una aplicación web completa que incluye un sistema de autenticación, un dashboard simple y una tabla con funcionalidad de búsqueda.
+Esta es una aplicación web full-stack diseñada para la gestión de un concesionario de vehículos usados. Incluye autenticación segura, inventario dinámico con filtros avanzados y paginación del lado del servidor.
 
-## Tecnologías Utilizadas
+## 🚀 Tecnologías Utilizadas
 
 ### Backend
-- **Node.js** con **Express** y **TypeScript**.
-- **SQLite** como base de datos (con `sqlite3`).
-- **JWT (JSON Web Tokens)** para autenticación.
-- **Bcryptjs** para el hash de contraseñas.
+- **Node.js & Express** con **TypeScript**.
+- **SQLite** (raw `sqlite3`) para persistencia de datos.
+- **JWT (JSON Web Tokens)** para manejo de sesiones seguras.
+- **Bcryptjs** para el cifrado de contraseñas.
 
 ### Frontend
-- **React** (creado con **Vite**) y **TypeScript**.
-- **Tailwind CSS** para los estilos.
-- **React Router Dom** para la navegación.
-- **Axios** para las peticiones a la API.
+- **React** (Vite) con **TypeScript**.
+- **Tailwind CSS** para una interfaz moderna y responsiva.
+- **Axios** para comunicación con la API.
+- **React Router Dom** para navegación y rutas protegidas.
 
 ---
 
-## Instrucciones para Ejecutar el Proyecto
+## 🛠️ Funcionalidades Principales
 
-### 1. Requisitos Previos
-Asegúrate de tener instalado [Node.js](https://nodejs.org/) (versión 16 o superior).
+1.  **Autenticación Segura:** Login mediante correo y contraseña con persistencia de sesión (LocalStorage + JWT).
+2.  **Rutas Protegidas:** Solo usuarios autenticados pueden acceder al panel de control.
+3.  **Inventario Premium:** Base de datos poblada con más de 40 vehículos, incluyendo modelos de alto rendimiento (BMW M3 G80, Supra MK5, Lexus RC F).
+4.  **Búsqueda y Filtros Avanzados:**
+    -   Búsqueda global por texto (modelo, descripción).
+    -   Filtros específicos por **Marca** y **Año**.
+5.  **Paginación del Servidor:** Manejo eficiente de grandes volúmenes de datos mediante límites y offsets en SQL.
 
-### 2. Clonar el Repositorio
+---
+
+## 📋 Instrucciones de Ejecución
+
+### 1. Clonar y Preparar
 ```bash
 git clone https://github.com/kaikiller/Prueba-tecnica.git
 cd Prueba-tecnica
 ```
 
-### 3. Configurar y Ejecutar el Backend
+### 2. Ejecutar Backend
 ```bash
-# Ir a la carpeta del backend
 cd backend
-
-# Instalar dependencias
 npm install
-
-# Iniciar el servidor en modo desarrollo
 npm run dev
 ```
-El servidor backend correrá en `http://localhost:4000`. La base de datos se inicializará automáticamente con datos de prueba.
+*El servidor correrá en `http://localhost:4000`.*
 
-### 4. Configurar y Ejecutar el Frontend
-Abre una **nueva terminal** y ejecuta:
+### 3. Ejecutar Frontend
+En otra terminal:
 ```bash
-# Ir a la carpeta del frontend
 cd frontend
-
-# Instalar dependencias
 npm install
-
-# Iniciar el servidor de desarrollo
 npm run dev
 ```
-La aplicación frontend estará disponible en `http://localhost:5173`.
+*La aplicación estará disponible en `http://localhost:5173`.*
 
 ---
 
-## Credenciales de Acceso
-Para probar el login, utiliza las siguientes credenciales preconfiguradas:
+## 🔑 Credenciales de Acceso
 
-- **Usuario:** `admin`
+- **Correo:** `admin@admin.com`
 - **Contraseña:** `password`
 
 ---
 
-## Funcionalidades Implementadas
-- **Login:** Validación de credenciales y generación de token JWT.
-- **Rutas Protegidas:** Solo usuarios autenticados pueden ver el Dashboard.
-- **Dashboard:**
-  - Tabla que muestra el inventario de equipos.
-  - Buscador en tiempo real (filtra por nombre, descripción o estado).
-  - Cierre de sesión (Logout).
+## 📸 Captura de Pantalla (Estructura)
+- `/login`: Formulario de acceso estilizado.
+- `/dashboard`: Tabla dinámica con filtros, paginación y gestión de stock.
