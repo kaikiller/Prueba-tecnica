@@ -1,41 +1,39 @@
-# AutoDrive - Inventario de Autos Usados
+AutoDrive - Inventario de Autos Usados
 
-### Stack Elegido
-**Backend:** Node.js, Express, TypeScript, SQLite (raw sqlite3), JWT, Bcrypt.  
-**Frontend:** React (Vite), TypeScript, Tailwind CSS, Axios, React Router.
+STACK:
+Backend con Node, Express, TypeScript y SQLite.
+Frontend con React, TypeScript y Tailwind CSS.
 
-### Prerrequisitos
-- **Node.js:** Versión 16 o superior.
-- **npm:** Incluido con Node.js.
+REQUISITOS:
+Tener instalado Node.js (v16 o mas).
 
-### Pasos para instalar y correr
-```bash
-# 1. Clonar el repositorio
+PASOS PARA CORRERLO (Copy-paste):
+
+# 1. Clonar y entrar
 git clone https://github.com/kaikiller/devpanel-NelsonPimentel.git
 cd devpanel-NelsonPimentel
 
-# 2. Configurar el Backend
+# 2. Arrancar Backend
 cd backend
 npm install
-npm run dev & # Inicia el backend en :4000
+npm run dev &
 
-# 3. Configurar el Frontend (en otra terminal)
+# 3. Arrancar Frontend
 cd ../frontend
 npm install
-npm run dev   # Inicia el frontend en :5173
-```
+npm run dev
 
-### Credenciales de prueba
-- **Usuario:** `admin@admin.com`
-- **Contraseña:** `password`
+CREDENCIALES:
+Correo: admin@admin.com
+Clave: password
 
-### Decisiones técnicas clave
-- **Paginación y Filtros en el Servidor:** Se implementó lógica de SQL (`LIMIT`, `OFFSET` y `WHERE` dinámicos) para manejar el rendimiento y evitar sobrecargar el frontend con miles de registros.
-- **Seguridad con JWT:** Uso de JSON Web Tokens almacenados en `localStorage` para persistencia de sesión y protección de rutas mediante un componente `PrivateRoute`.
-- **Diseño con Tailwind CSS:** Enfoque en una interfaz moderna y limpia utilizando una paleta de colores esmeralda para transmitir profesionalismo y claridad visual.
-- **Base de Datos Ligera:** Elección de SQLite por su simplicidad de configuración ("Zero-config"), ideal para pruebas técnicas y entornos de desarrollo rápido.
+NOTAS TECNICAS:
+* Paginacion y filtros hechos en el servidor (SQL) para que sea rapido con muchos datos.
+* Sesion con JWT guardado en localStorage y rutas protegidas en el front.
+* Diseño verde esmeralda con Tailwind para que se vea limpio y moderno.
+* Base de datos SQLite para que no necesites configurar nada externo.
 
-### Limitaciones conocidas
-- **Gestión de Sesión:** El token JWT no tiene un sistema de "refresh token"; expira en 1 hora y requiere nuevo login.
-- **CRUD Incompleto:** Actualmente el sistema es de solo lectura (búsqueda y visualización). Las funciones de Crear, Editar y Eliminar autos no están implementadas en la interfaz.
-- **Base de Datos Local:** Los cambios en la base de datos se pierden si se elimina el archivo `.sqlite` (no hay migraciones formales, solo seeding inicial).
+LIMITACIONES:
+* El token dura 1 hora, luego hay que loguearse de nuevo.
+* Solo se puede buscar y ver, no hay botones para agregar o borrar carros aun.
+* La base de datos se resetea si borras el archivo .sqlite de la carpeta backend.
