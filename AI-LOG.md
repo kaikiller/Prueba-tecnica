@@ -14,3 +14,5 @@ Mi honesta despuesta es que la IA creo el 98% del proyecto yo Cambie un par de c
 exelente fue cuando le pedi el cambio de computadoras a autos fue super rapido y pudo todo lo que esperaba
 
 al momento de crear el proyecto y revisarlo creo no creo un gitignore bueno le faltaba ignorar las node modules y siendo esto un repo con los 2 proyectos se subiria mucha basura al repo
+
+al final decidi pedirle un cambio de estetica a algo mas moderno ya que su primera iteracion se veia un poco vieja
