@@ -2,8 +2,9 @@
 
 Para hacerlo funcionar:
 
-1. Ve a la carpeta `backend`, dale `npm install` y luego `npm run dev`.
-2. Haz lo mismo en la carpeta `frontend`: `npm install` y `npm run dev`.
+1. Primero clona el repo: `git clone https://github.com/kaikiller/Prueba-tecnica.git`
+2. Ve a la carpeta `backend`, dale `npm install` y luego `npm run dev`.
+3. Haz lo mismo en la carpeta `frontend`: `npm install` y `npm run dev`.
 
 El usuario para entrar es:
 admin@admin.com
