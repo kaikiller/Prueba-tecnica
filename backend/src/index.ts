@@ -105,6 +105,40 @@ app.get('/api/filters', authenticateToken, (req, res) => {
   });
 });
 
+// --- USERS CRUD ---
+
+// Get all users
+app.get('/api/users', authenticateToken, (req: AuthRequest, res) => {
+  db.all(`SELECT id, email FROM users ORDER BY id ASC`, [], (err, rows) => {
+    if (err) return res.status(500).json({ message: 'Error al obtener usuarios' });
+    res.json(rows);
+  });
+});
+
+// Create new user
+app.post('/api/users', authenticateToken, (req: AuthRequest, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) return res.status(400).json({ message: 'Email y password son obligatorios' });
+
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  db.run(`INSERT INTO users (email, password) VALUES (?, ?)`, [email, hashedPassword], function(err) {
+    if (err) {
+      if (err.message.includes('UNIQUE')) return res.status(400).json({ message: 'Este correo ya está registrado' });
+      return res.status(500).json({ message: 'Error al crear usuario' });
+    }
+    res.status(201).json({ id: this.lastID, email });
+  });
+});
+
+// Delete user
+app.delete('/api/users/:id', authenticateToken, (req: AuthRequest, res) => {
+  const { id } = req.params;
+  db.run(`DELETE FROM users WHERE id = ?`, [id], function(err) {
+    if (err) return res.status(500).json({ message: 'Error al eliminar usuario' });
+    res.json({ message: 'Usuario eliminado con éxito' });
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor de Autos Usados corriendo en http://localhost:${PORT}`);
 });
