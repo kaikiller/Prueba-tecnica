@@ -2,7 +2,7 @@
 
 Para hacerlo funcionar:
 
-1. Primero clona el repo: `git clone https://github.com/kaikiller/Prueba-tecnica.git`
+1. Primero clona el repo: `git clone https://github.com/kaikiller/devpanel-NelsonPimentel.git`
 2. Ve a la carpeta `backend`, dale `npm install` y luego `npm run dev`.
 3. Haz lo mismo en la carpeta `frontend`: `npm install` y `npm run dev`.
 
